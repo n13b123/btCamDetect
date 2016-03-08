@@ -1,5 +1,6 @@
 package com.example.victor.btcamdetect;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button myBtn = (Button) findViewById(R.id.button);
         Button myBtn2 = (Button) findViewById(R.id.button2);
+        Button cameraBtn = (Button) findViewById(R.id.cameraBtn);
 //        qwe2();
 
         myBtn.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +65,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.i("btn2", "press");
                 sendWebSocket();
+
+            }
+        });
+
+        cameraBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("cameraBtn", "press");
+                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+                startActivity(intent);
 
             }
         });
