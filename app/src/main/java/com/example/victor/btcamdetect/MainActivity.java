@@ -1,28 +1,19 @@
 package com.example.victor.btcamdetect;
 
+import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
+import com.example.victor.btcamdetect.network.VicWebSocket;
+
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -30,42 +21,39 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
+
 import java.net.URL;
 import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    WebSocketClient mWebSocketClient;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        Button myBtn = (Button) findViewById(R.id.button);
-        Button myBtn2 = (Button) findViewById(R.id.button2);
+        Button connectSocketBtn = (Button) findViewById(R.id.connectSocketBtn);
+        Button sendToSocketBtn = (Button) findViewById(R.id.sendToSocketBtn);
         Button cameraBtn = (Button) findViewById(R.id.cameraBtn);
-//        qwe2();
+        Button cvBtn = (Button) findViewById(R.id.cvBtn);
+        Button motionDetectBtn = (Button) findViewById(R.id.motionDetectBtn);
 
-        myBtn.setOnClickListener(new View.OnClickListener() {
+        connectSocketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("btn", "press");
-                connectWebSocket();
-
+               // VicWebSocket ws = new VicWebSocket();
+                VicWebSocket.connectWebSocket();
             }
         });
 
-        myBtn2.setOnClickListener(new View.OnClickListener() {
+        sendToSocketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("btn2", "press");
-                sendWebSocket();
-
+                EditText editText = (EditText)findViewById(R.id.editText);
+                editText.setText("....");
+                //VicWebSocket ws = new VicWebSocket();
+                VicWebSocket.sendWebSocket(editText.getText().toString());
             }
         });
 
@@ -75,50 +63,28 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("cameraBtn", "press");
                 Intent intent = new Intent(MainActivity.this, CameraActivity.class);
                 startActivity(intent);
-
             }
         });
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-    }
+        cvBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("openCVBtn", "press");
+                Intent intent = new Intent(MainActivity.this, OpenCVActivity.class);
+                startActivity(intent);
+            }
+        });
 
-    public void sendWebSocket() {
-        EditText editText = (EditText)findViewById(R.id.editText);
-        mWebSocketClient.send(editText.getText().toString());
-        editText.setText("....");
-    }
+        motionDetectBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("motionDetectBtn", "press");
+                Intent intent = new Intent(MainActivity.this, MotionDetectActivity.class);
+                startActivity(intent);
+            }
+        });
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    }
 
     public void qwe2(){
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -150,12 +116,12 @@ public class MainActivity extends AppCompatActivity {
         try {
             JSONObject jObject = new JSONObject(result.toString());
 
-            TextView myText2 = (TextView) findViewById(R.id.myText2);
-            myText2.setText(jObject.getString("first"));
+            TextView socketDbg = (TextView) findViewById(R.id.socketDbg);
+            socketDbg.setText(jObject.getString("first"));
 
             JSONArray jArray = jObject.getJSONArray("second");
 
-            ListView myListView = (ListView)findViewById(R.id.listView1);
+            //ListView myListView = (ListView)findViewById(R.id.listView1);
             final ArrayList<String> second_items = new ArrayList<String>();
             final ArrayAdapter<String> aa;
             //aa = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, jArray);
@@ -179,46 +145,5 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    private void connectWebSocket() {
-        URI uri;
-        try {
-            uri = new URI("ws://192.168.56.102:8888");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return;
-        }
-
-         mWebSocketClient = new WebSocketClient(uri) {
-            @Override
-            public void onOpen(ServerHandshake serverHandshake) {
-                Log.i("Websocket", "Opened");
-                this.send("Hello from " + Build.MANUFACTURER + " " + Build.MODEL);
-            }
-
-            @Override
-            public void onMessage(String s) {
-                final String message = s;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        TextView textView = (TextView) findViewById(R.id.myText2);
-                        textView.setText(textView.getText() + "\n" + message);
-                    }
-                });
-            }
-
-            @Override
-            public void onClose(int i, String s, boolean b) {
-                Log.i("Websocket", "Closed " + s);
-            }
-
-            @Override
-            public void onError(Exception e) {
-                Log.i("Websocket", "Error " + e.getMessage());
-            }
-        };
-        mWebSocketClient.connect();
-    }
 
 }

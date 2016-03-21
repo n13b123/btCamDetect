@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="json test"
         android:id="@+id/myText1"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -24,60 +24,76 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
+        android:text="connectSocket"
+        android:id="@+id/connectSocketBtn"
         android:layout_below="@+id/myText1"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignRight="@+id/sendToSocketBtn"
+        android:layout_alignEnd="@+id/sendToSocketBtn" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/myText2"
-        android:layout_alignRight="@+id/button"
-        android:layout_alignEnd="@+id/button"
-        android:layout_below="@+id/button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/listView1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/editText" />
+        android:id="@+id/socketDbg"
+        android:layout_alignBottom="@+id/connectSocketBtn"
+        android:layout_toRightOf="@+id/connectSocketBtn"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/connectSocketBtn" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button2"
-        android:layout_below="@+id/myText2"
+        android:text="send msg"
+        android:id="@+id/sendToSocketBtn"
+        android:layout_below="@+id/socketDbg"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/cameraBtn"
+        android:layout_alignEnd="@+id/cameraBtn" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText"
-        android:layout_below="@+id/button2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/sendToSocketBtn"
+        android:layout_alignLeft="@+id/socketDbg"
+        android:layout_alignStart="@+id/socketDbg"
+        android:text="socket send text ..." />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="show camera"
         android:id="@+id/cameraBtn"
-        android:layout_below="@+id/myText2"
-        android:layout_toRightOf="@+id/button2"
-        android:layout_toEndOf="@+id/button2"
-        android:layout_marginLeft="28dp"
-        android:layout_marginStart="28dp" />
+        android:layout_below="@+id/sendToSocketBtn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="openCV"
+        android:id="@+id/cvBtn"
+        android:layout_below="@+id/motionDetectBtn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/motionDetectBtn"
+        android:layout_alignEnd="@+id/motionDetectBtn" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="motion det"
+        android:id="@+id/motionDetectBtn"
+        android:layout_below="@+id/cameraBtn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/editText"
+        android:layout_toStartOf="@+id/editText" />
 </RelativeLayout>
