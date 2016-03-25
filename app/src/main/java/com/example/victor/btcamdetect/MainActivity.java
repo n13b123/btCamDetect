@@ -1,5 +1,7 @@
 package com.example.victor.btcamdetect;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.victor.btcamdetect.db.SettingsHelper;
 import com.example.victor.btcamdetect.network.VicWebSocket;
 
 import org.json.JSONArray;
@@ -36,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         Button connectSocketBtn = (Button) findViewById(R.id.connectSocketBtn);
         Button sendToSocketBtn = (Button) findViewById(R.id.sendToSocketBtn);
         Button cameraBtn = (Button) findViewById(R.id.cameraBtn);
-        Button cvBtn = (Button) findViewById(R.id.cvBtn);
         Button motionDetectBtn = (Button) findViewById(R.id.motionDetectBtn);
 
         connectSocketBtn.setOnClickListener(new View.OnClickListener() {
@@ -66,16 +68,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        cvBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i("openCVBtn", "press");
-                Intent intent = new Intent(MainActivity.this, OpenCVActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        motionDetectBtn.setOnClickListener(new View.OnClickListener() {
+         motionDetectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i("motionDetectBtn", "press");
@@ -84,6 +77,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // db test
+        SettingsHelper mSettingsHelper = new SettingsHelper(this);
+        SQLiteDatabase mSqLiteDatabase = mSettingsHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(SettingsHelper.NAME_COLUMN, "test");
+        values.put(SettingsHelper.VALUE_COLUMN, "val");
+        mSqLiteDatabase.insert(SettingsHelper.DATABASE_TABLE, null, values);
     }
 
     public void qwe2(){
