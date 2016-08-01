@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         Button sendToSocketBtn = (Button) findViewById(R.id.sendToSocketBtn);
         Button cameraBtn = (Button) findViewById(R.id.cameraBtn);
         Button motionDetectBtn = (Button) findViewById(R.id.motionDetectBtn);
+        Button confirmPhoneBtn = (Button) findViewById(R.id.confirmPhoneBtn);
 
         connectSocketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,11 +71,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-         motionDetectBtn.setOnClickListener(new View.OnClickListener() {
+        motionDetectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i("motionDetectBtn", "press");
                 Intent intent = new Intent(MainActivity.this, MotionDetectActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        confirmPhoneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ConfirmPhoneActivity.class);
                 startActivity(intent);
             }
         });
@@ -85,6 +96,26 @@ public class MainActivity extends AppCompatActivity {
         values.put(SettingsHelper.NAME_COLUMN, "test");
         values.put(SettingsHelper.VALUE_COLUMN, "val");
         mSqLiteDatabase.insert(SettingsHelper.DATABASE_TABLE, null, values);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_settings:
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void qwe2(){
@@ -145,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 
 
 }
