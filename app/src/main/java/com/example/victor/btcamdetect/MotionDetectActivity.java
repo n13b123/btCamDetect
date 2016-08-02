@@ -11,6 +11,7 @@ import com.example.victor.btcamdetect.detection.IMotionDetection;
 import com.example.victor.btcamdetect.detection.LumaMotionDetection;
 import com.example.victor.btcamdetect.detection.RgbMotionDetection;
 import com.example.victor.btcamdetect.image.ImageProcessing;
+import com.example.victor.btcamdetect.network.SiteApi;
 import com.example.victor.btcamdetect.network.VicWebSocket;
 
 import android.app.Activity;
@@ -222,7 +223,7 @@ public class MotionDetectActivity extends Activity {
                     // phones
                     // to reboot.
 
-                    VicWebSocket.sendWebSocket("has motion");
+                    //VicWebSocket.sendWebSocket("has motion");
 
                     long now = System.currentTimeMillis();
                     if (now > (mReferenceTime + Preferences.PICTURE_DELAY)) {
@@ -286,6 +287,7 @@ public class MotionDetectActivity extends Activity {
             try {
                 FileOutputStream fos = new FileOutputStream(photo.getPath());
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                SiteApi.phoneMediaAdd(photo.getPath(), "image");
                 fos.close();
             } catch (java.io.IOException e) {
                 Log.e("PictureDemo", "Exception in photoCallback", e);

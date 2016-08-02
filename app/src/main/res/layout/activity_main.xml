@@ -87,11 +87,8 @@
         android:layout_height="wrap_content"
         android:text="openCV"
         android:id="@+id/cvBtn"
-        android:layout_below="@+id/motionDetectBtn"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/motionDetectBtn"
-        android:layout_alignEnd="@+id/motionDetectBtn" />
+        android:layout_alignTop="@+id/motionDetectBtn"
+        android:layout_toEndOf="@+id/editText" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -99,11 +96,8 @@
         android:layout_height="wrap_content"
         android:text="motion det"
         android:id="@+id/motionDetectBtn"
-        android:layout_below="@+id/cameraBtn"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/editText"
-        android:layout_toStartOf="@+id/editText" />
+        android:layout_above="@+id/confirmPhoneBtn"
+        android:layout_centerHorizontal="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -112,10 +106,7 @@
         android:text="confirm phone"
         android:id="@+id/confirmPhoneBtn"
         android:layout_below="@+id/cameraBtn"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/editText"
-        android:layout_toStartOf="@+id/editText" />
+        android:layout_alignParentStart="true" />
 
     <!--<android.support.design.widget.FloatingActionButton-->
         <!--android:id="@+id/fab"-->
